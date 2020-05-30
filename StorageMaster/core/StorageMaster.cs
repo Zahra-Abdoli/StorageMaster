@@ -107,6 +107,13 @@ namespace StorageMaster.core
             var destination = storageRegistry.Where(p => p.Name == destinationName).First();
             source.SendVehicleTo(sourceGarageSlot, destination);
             return ($"selected{destination.Garage[destination.Garage.Count].ToString()}");
+
+        }
+        public string UploadVehicle(string storageName,int garageSlot)
+        {
+            var storage = storageRegistry.Where(p => p.Name == storageName).First();
+            int result=storage.UnloadVehicle(garageSlot);
+            return $"Unloaded {result} product at {storageName} ";
         }
     }
 }
