@@ -7,6 +7,10 @@ namespace StorageMaster.Models.Products
 {
     public class Gpu : Product
     {
+        public override string ToString()
+        {
+            return "Gpu";
+        }
         public Gpu(double price) : base (price, 0.7)
         {
         }

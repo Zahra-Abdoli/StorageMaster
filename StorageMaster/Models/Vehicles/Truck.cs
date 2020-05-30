@@ -9,5 +9,9 @@ namespace StorageMaster.Models.Vehicles
         public Truck() : base (5)
         {
         }
+        public override string ToString()
+        {
+            return "Truck";
+        }
     }
 }
