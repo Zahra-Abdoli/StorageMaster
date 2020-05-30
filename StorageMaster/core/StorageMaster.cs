@@ -10,17 +10,22 @@ namespace StorageMaster.core
 {
     class StorageMaster
     {
-        private List<Product> pool;
+        private StorageMaster()
+        {
 
-        public List<Product> Pool
+                
+        }
+        private static List<Product> pool = new List<Product>();
+
+        public static List<Product> Pool
         {
             get { return pool; }
             set { pool = value; }
         }
 
-        private List<Storage> storageRegistry;
+        private static List<Storage> storageRegistry = new List<Storage>();
 
-        public List<Storage> StorageRegistary
+        public static List<Storage> StorageRegistary
         {
             get { return storageRegistry; }
             set { storageRegistry = value; }
