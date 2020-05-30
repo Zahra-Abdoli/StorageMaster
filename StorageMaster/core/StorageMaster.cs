@@ -75,7 +75,8 @@ namespace StorageMaster.core
             return ($"registerd {name}");
 
         }
-        public string SelectedVehicle(string storageName, int garageSlot) {
+        public string SelectedVehicle(string storageName, int garageSlot)
+        {
             var storage = storageRegistry.Where(p => p.Name == storageName).First();
             Vehicle result = storage.GetVehicle(garageSlot);
             return ($"selected {result.ToString()}");
@@ -87,7 +88,7 @@ namespace StorageMaster.core
             int productCount = 0;
             foreach (var item in productName)
             {
-                
+
 
                 var product = pool.Where(p => p.ToString() == item).Last();
                 if (product == null) throw new InvalidOperationException($"{item} is out of stock");
@@ -99,6 +100,13 @@ namespace StorageMaster.core
 
             }
             return ($"loded {productCount} product into{vehicle.ToString()}");
+        }
+        public string SendVehicleTo(string sourceName, int sourceGarageSlot, string destinationName)
+        {
+            var source = storageRegistry.Where(p => p.Name == sourceName).First();
+            var destination = storageRegistry.Where(p => p.Name == destinationName).First();
+            source.SendVehicleTo(sourceGarageSlot, destination);
+            return ($"selected{destination.Garage[destination.Garage.Count].ToString()}");
         }
     }
 }
