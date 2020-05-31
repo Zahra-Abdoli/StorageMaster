@@ -36,7 +36,7 @@ namespace StorageMaster.Models.Storage
             
             {
                     double sumWeight = 0;
-                    foreach (Product product in Products)
+                     foreach (Product product in Products)
                     {
                         sumWeight += product.Weight;
                     }
@@ -50,6 +50,11 @@ namespace StorageMaster.Models.Storage
         public List<Product> Products { get => products; private set => products = value; }
         public List<Vehicle> Garage { get => garage; protected set => garage = value; }
 
+        /// <summary>
+        /// choose one vehicle if it is anyone
+        /// </summary>
+        /// <param name="garageSlot"></param>
+        /// <returns></returns>
         public Vehicle GetVehicle (int garageSlot)
         {
             if (garageSlot >= GarageSlots)
@@ -64,6 +69,12 @@ namespace StorageMaster.Models.Storage
         }
 
             
+            /// <summary>
+            /// send vehicle from garage slot to another storage
+            /// </summary>
+            /// <param name="garageSlot"></param>
+            /// <param name="deliveryLocation"></param>
+            /// <returns></returns>
             public int SendVehicleTo(int garageSlot,Storage deliveryLocation)
             {
                 Vehicle v = GetVehicle(garageSlot);
@@ -76,7 +87,12 @@ namespace StorageMaster.Models.Storage
                 return deliveryLocation.garage.Count;
             }
 
-        public int UnloadVehicle(int garageSlot)
+       /// <summary>
+       /// make the corrent vehicle unLoade
+       /// </summary>
+       /// <param name="garageSlot"></param>
+       /// <returns></returns>
+       public int UnloadVehicle(int garageSlot)
         {
             if (IsFull)
                 throw new InvalidOperationException("Storage is full");

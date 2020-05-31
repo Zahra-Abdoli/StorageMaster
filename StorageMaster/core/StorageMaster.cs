@@ -31,7 +31,13 @@ namespace StorageMaster.core
             set { storageRegistry = value; }
         }
 
-        public string AddProduct(string type, double price)
+       /// <summary>
+       /// add new product with one of the tree type
+       /// </summary>
+       /// <param name="type"></param>
+       /// <param name="price"></param>
+       /// <returns></returns>
+       public static string AddProduct(string type, double price)
         {
             Product product = null;
             switch (type)
@@ -56,7 +62,13 @@ namespace StorageMaster.core
             pool.Add(product);
             return ($"{type} added to pool");
         }
-        public string RegisterStorage(string type, string name)
+        /// <summary>
+        /// register new storage
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static string RegisterStorage(string type, string name)
         {
             Storage storage = null;
             switch (type)
@@ -80,7 +92,13 @@ namespace StorageMaster.core
             return ($"registerd {name}");
 
         }
-        public string SelectedVehicle(string storageName, int garageSlot)
+        /// <summary>
+        /// select one vehicle from spesefic storage and slot
+        /// </summary>
+        /// <param name="storageName"></param>
+        /// <param name="garageSlot"></param>
+        /// <returns></returns>
+        public static string SelectedVehicle(string storageName, int garageSlot)
         {
             var storage = storageRegistry.Where(p => p.Name == storageName).First();
             Vehicle result = storage.GetVehicle(garageSlot);
@@ -88,7 +106,13 @@ namespace StorageMaster.core
 
 
         }
-        public string LoadVehicle(List<string> productName, Vehicle vehicle)
+        /// <summary>
+        /// load list of product from pool to vehicle 
+        /// </summary>
+        /// <param name="productName"></param>
+        /// <param name="vehicle"></param>
+        /// <returns></returns>
+        public static string LoadVehicle(List<string> productName, Vehicle vehicle)
         {
             int productCount = 0;
             foreach (var item in productName)
@@ -106,7 +130,14 @@ namespace StorageMaster.core
             }
             return ($"loded {productCount} product into{vehicle.ToString()}");
         }
-        public string SendVehicleTo(string sourceName, int sourceGarageSlot, string destinationName)
+        /// <summary>
+        /// send vehicle from source storage to destination storage
+        /// </summary>
+        /// <param name="sourceName"></param>
+        /// <param name="sourceGarageSlot"></param>
+        /// <param name="destinationName"></param>
+        /// <returns></returns>
+        public static string SendVehicleTo(string sourceName, int sourceGarageSlot, string destinationName)
         {
             var source = storageRegistry.Where(p => p.Name == sourceName).First();
             var destination = storageRegistry.Where(p => p.Name == destinationName).First();
@@ -114,11 +145,35 @@ namespace StorageMaster.core
             return ($"selected{destination.Garage[destination.Garage.Count].ToString()}");
 
         }
-        public string UploadVehicle(string storageName,int garageSlot)
+        /// <summary>
+        /// Upload vehicle from spesefic storage
+        /// </summary>
+        /// <param name="storageName"></param>
+        /// <param name="garageSlot"></param>
+        /// <returns></returns>
+        public static string UploadVehicle(string storageName,int garageSlot)
         {
             var storage = storageRegistry.Where(p => p.Name == storageName).First();
             int result=storage.UnloadVehicle(garageSlot);
             return $"Unloaded {result} product at {storageName} ";
+        }
+   /// <summary>
+   /// information of storage /// </summary>
+   /// <param name="storageName"></param>
+   public static string GetStorageStatuse(string storageName)
+        {
+            var storage = storageRegistry.Where(p => p.Name == storageName).First();
+            storage.Products.GroupBy(p => p.ToString()).OrderByDescending(p => p.Count()).OrderBy(p => p.ToString());
+            string garageSlot;
+            if (storage.Garage.Count() == 0) garageSlot = "empty";
+            else garageSlot = storage.Garage.Count().ToString();
+            double sumWeight=0;
+            foreach (Product product in storage.Products)
+            {
+                sumWeight += product.Weight;
+            }
+
+            return $"stock({sumWeight}/{storage.Capacity}:[])";
         }
     }
 }
