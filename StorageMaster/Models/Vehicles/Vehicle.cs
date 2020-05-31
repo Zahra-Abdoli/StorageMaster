@@ -11,7 +11,7 @@ namespace StorageMaster.Models.Vehicles
         private List<Product> trunk;
         private bool isFull;
         private bool isEmpty;
-        
+
         protected Vehicle(int capacity)
         {
             Capacity = capacity;
@@ -20,9 +20,10 @@ namespace StorageMaster.Models.Vehicles
 
         public int Capacity { get => capacity; set => capacity = value; }
         public List<Product> Trunk { get => trunk; private set => trunk = value; }
-        public bool IsFull 
+        public bool IsFull
         {
-            get {
+            get
+            {
                 double sumWeight = 0;
                 foreach (Product product in Trunk)
                 {
@@ -32,11 +33,12 @@ namespace StorageMaster.Models.Vehicles
                     this.isFull = true;
                 return isFull;
             }
-          
+
         }
         public bool IsEmpty
         {
-            get {
+            get
+            {
                 if (Trunk.Count == 0)
                     isEmpty = true;
                 return isEmpty;
@@ -64,8 +66,9 @@ namespace StorageMaster.Models.Vehicles
             if (isEmpty)
                 throw new InvalidOperationException("No products left in vehicle.");
             else
-                trunk.RemoveAt(trunk.Count);//maybe bound error, trunk.Count -1
-           capacity= capacity-(int) product.Weight;
+                trunk.RemoveAt(trunk.Count);
+            //maybe bound error, trunk.Count -1
+            capacity = capacity - (int)product.Weight;
         }
     }
 }

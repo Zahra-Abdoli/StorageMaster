@@ -15,6 +15,37 @@ namespace StorageMaster.Models.Storage
         private bool isFull;
         private List<Product> products;
         private List<Vehicle> garage;
+        private double priceSum;
+
+
+        public double PriceSum
+        {
+            get
+            {
+                foreach (Product product in products)
+                {
+                    priceSum += product.Price;
+                }
+                return priceSum;
+            }
+        }
+        private double weightSum;
+
+        public double WeightSum
+        {
+            get
+            {
+                foreach (Product product in products)
+                {
+                    weightSum += product.Weight;
+                }
+                return weightSum;
+            }
+
+        }
+
+
+
 
         public Storage(string name, int capacity, int garageSlots)
         {
@@ -23,7 +54,7 @@ namespace StorageMaster.Models.Storage
             GarageSlots = garageSlots;
             this.Garage = new List<Vehicle>(garageSlots);
             this.Products = new List<Product>(capacity);
-       
+
         }
 
         public string Name { get => name; set => name = value; }
@@ -33,19 +64,16 @@ namespace StorageMaster.Models.Storage
         {
             /// we do not need set because it is a readonly property 
             get
-            
+
             {
-                    double sumWeight = 0;
-                     foreach (Product product in Products)
-                    {
-                        sumWeight += product.Weight;
-                    }
-                    if (sumWeight >= capacity)
-                        this.isFull = true;
-                     return isFull;
-                
+
+
+                if (weightSum >= capacity)
+                    this.isFull = true;
+                return isFull;
+
             }
-          
+
         }
         public List<Product> Products { get => products; private set => products = value; }
         public List<Vehicle> Garage { get => garage; protected set => garage = value; }
@@ -55,12 +83,12 @@ namespace StorageMaster.Models.Storage
         /// </summary>
         /// <param name="garageSlot"></param>
         /// <returns></returns>
-        public Vehicle GetVehicle (int garageSlot)
+        public Vehicle GetVehicle(int garageSlot)
         {
             if (garageSlot >= GarageSlots)
-            
+
                 throw new InvalidOperationException("Invalid Garage Slot");
-                
+
             else if (Garage[garageSlot] == null)
                 throw new InvalidOperationException("No Vehicle is the Garage Slot");
             else
@@ -68,31 +96,31 @@ namespace StorageMaster.Models.Storage
 
         }
 
-            
-            /// <summary>
-            /// send vehicle from garage slot to another storage
-            /// </summary>
-            /// <param name="garageSlot"></param>
-            /// <param name="deliveryLocation"></param>
-            /// <returns></returns>
-            public int SendVehicleTo(int garageSlot,Storage deliveryLocation)
-            {
-                Vehicle v = GetVehicle(garageSlot);
+
+        /// <summary>
+        /// send vehicle from garage slot to another storage
+        /// </summary>
+        /// <param name="garageSlot"></param>
+        /// <param name="deliveryLocation"></param>
+        /// <returns></returns>
+        public int SendVehicleTo(int garageSlot, Storage deliveryLocation)
+        {
+            Vehicle v = GetVehicle(garageSlot);
             if (deliveryLocation.garage.Count < deliveryLocation.GarageSlots)
                 deliveryLocation.garage.Add(v);
 
 
             else
                 throw new InvalidOperationException("No room in garage.");
-                return deliveryLocation.garage.Count;
-            }
+            return deliveryLocation.garage.Count;
+        }
 
-       /// <summary>
-       /// make the corrent vehicle unLoade
-       /// </summary>
-       /// <param name="garageSlot"></param>
-       /// <returns></returns>
-       public int UnloadVehicle(int garageSlot)
+        /// <summary>
+        /// make the corrent vehicle unLoade
+        /// </summary>
+        /// <param name="garageSlot"></param>
+        /// <returns></returns>
+        public int UnloadVehicle(int garageSlot)
         {
             if (IsFull)
                 throw new InvalidOperationException("Storage is full");
@@ -100,20 +128,20 @@ namespace StorageMaster.Models.Storage
             int unloaded = 0;
             foreach (Product product in v.Trunk)
             {
-               
+
                 if (!v.IsEmpty || !this.IsFull)
 
                     this.products.Add(product);
                 v.UnLoad(product);
-                
-                unloaded ++;
+
+                unloaded++;
             }
             return unloaded;
         }
     }
-   
-   
-    
+
+
+
 
 
 

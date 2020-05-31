@@ -13,10 +13,9 @@ namespace StorageMaster.core
         private StorageMaster()
         {
 
-                
+
         }
         private static List<Product> pool = new List<Product>();
-
         public static List<Product> Pool
         {
             get { return pool; }
@@ -31,13 +30,13 @@ namespace StorageMaster.core
             set { storageRegistry = value; }
         }
 
-       /// <summary>
-       /// add new product with one of the tree type
-       /// </summary>
-       /// <param name="type"></param>
-       /// <param name="price"></param>
-       /// <returns></returns>
-       public static string AddProduct(string type, double price)
+        /// <summary>
+        /// add new product with one of the tree type
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="price"></param>
+        /// <returns></returns>
+        public static string AddProduct(string type, double price)
         {
             Product product = null;
             switch (type)
@@ -117,8 +116,6 @@ namespace StorageMaster.core
             int productCount = 0;
             foreach (var item in productName)
             {
-
-
                 var product = pool.Where(p => p.ToString() == item).Last();
                 if (product == null) throw new InvalidOperationException($"{item} is out of stock");
                 vehicle.LoadProduct(product);
@@ -151,29 +148,47 @@ namespace StorageMaster.core
         /// <param name="storageName"></param>
         /// <param name="garageSlot"></param>
         /// <returns></returns>
-        public static string UploadVehicle(string storageName,int garageSlot)
+        public static string UploadVehicle(string storageName, int garageSlot)
         {
             var storage = storageRegistry.Where(p => p.Name == storageName).First();
-            int result=storage.UnloadVehicle(garageSlot);
+            int result = storage.UnloadVehicle(garageSlot);
             return $"Unloaded {result} product at {storageName} ";
         }
-   /// <summary>
-   /// information of storage /// </summary>
-   /// <param name="storageName"></param>
-   public static string GetStorageStatuse(string storageName)
+        /// <summary>
+        /// information of storage /// </summary>
+        /// <param name="storageName"></param>
+        public static string GetStorageStatuse(string storageName)
         {
+            string result = null;
             var storage = storageRegistry.Where(p => p.Name == storageName).First();
             storage.Products.GroupBy(p => p.ToString()).OrderByDescending(p => p.Count()).OrderBy(p => p.ToString());
             string garageSlot;
-            if (storage.Garage.Count() == 0) garageSlot = "empty";
+            if (storage.Garage.Count == 0) garageSlot = "empty";
             else garageSlot = storage.Garage.Count().ToString();
-            double sumWeight=0;
+
+            result = $"stock({storage.WeightSum}/{storage.Capacity}:) [";
             foreach (Product product in storage.Products)
             {
-                sumWeight += product.Weight;
+                return "";
             }
 
-            return $"stock({sumWeight}/{storage.Capacity}:[])";
+            return null;
+        }
+        /// <summary>
+        /// get all the storage in the storageRegistary and give summary
+        /// </summary>
+        /// <returns></returns>
+        public static string GetSummary()
+        {
+            string result = null;
+            storageRegistry.OrderByDescending(s => s.PriceSum);
+            foreach (Storage storage in storageRegistry)
+            {
+                result = $"{storage.Name}: \n  storageWorth:{storage.PriceSum}00 ";
+            }
+            return result;
+            ///??? why ca not return in foreac
+
         }
     }
 }
