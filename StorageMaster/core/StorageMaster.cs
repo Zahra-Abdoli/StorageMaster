@@ -141,7 +141,7 @@ namespace StorageMaster.core
             var source = storageRegistry.Where(p => p.Name == sourceName).First();
             var destination = storageRegistry.Where(p => p.Name == destinationName).First();
             source.SendVehicleTo(sourceGarageSlot, destination);
-            return $"selected{destination.Garage[destination.Garage.Count].ToString()}";
+            return $"selected{destination.Garage[destination.Garage.Count-1].ToString()}";
 
         }
         /// <summary>
@@ -150,7 +150,7 @@ namespace StorageMaster.core
         /// <param name="storageName"></param>
         /// <param name="garageSlot"></param>
         /// <returns></returns>
-        public static string UploadVehicle(string storageName, int garageSlot)
+        public static string UnloadVehicle(string storageName, int garageSlot)
         {
             var storage = storageRegistry.Where(p => p.Name == storageName).First();
             int result = storage.UnloadVehicle(garageSlot);
@@ -164,24 +164,24 @@ namespace StorageMaster.core
             
             var storage = storageRegistry.Where(p => p.Name == storageName).First();
             storage.Products.GroupBy(p => p.ToString()).OrderByDescending(p => p.Count()).OrderBy(p => p.ToString());
-            string garageSlot = null;
+            string garageSlot = "";
 
             for (int i = 0; i < 10; i++)
             {
-                if (i <= storage.Garage.Count) garageSlot += storage.Garage[i].ToString();
+                if (i < storage.Garage.Count) garageSlot += storage.Garage[i].ToString();
                 else garageSlot += "empty";
-                garageSlot += "|";
-
+               if(i<9) garageSlot += "|";
+          
             }
-            string stock = null;
+            string stock = "";
             for (int i = 0; i < storage.Products.Count; i++)
             {
                 stock += $"{storage.Products[i]}()";
                 ///gropby count
             }
 
-
-            return $"stock({storage.WeightSum}/{storage.Capacity}):[{stock}] \n [{garageSlot}]" ;
+            string result = $"stock({storage.WeightSum}/{storage.Capacity}):[{stock}]{Environment.NewLine} [{garageSlot}]";
+            return  result ;
         }
         /// <summary>
         /// get all the storage in the storageRegistary and give summary
@@ -189,11 +189,11 @@ namespace StorageMaster.core
         /// <returns></returns>
         public static string GetSummary()
         {
-            string result = null;
+            string result = "";
             storageRegistry.OrderByDescending(s => s.PriceSum);
             foreach (Storage storage in storageRegistry)
             {
-                result = $"{storage.Name}: \n  storageWorth:{storage.PriceSum}00 ";
+                result += $"{storage.Name}:{Environment.NewLine}  storageWorth:{storage.PriceSum}00 {Environment.NewLine}";
             }
             return result;
             ///??? why ca not return in foreac

@@ -89,10 +89,10 @@ namespace StorageMaster.Models.Storage
 
                 throw new InvalidOperationException("Invalid Garage Slot");
 
-            else if (Garage[garageSlot] == null)
+            else if (Garage[garageSlot-1] == null)
                 throw new InvalidOperationException("No Vehicle is the Garage Slot");
             else
-                return Garage[garageSlot];
+                return Garage[garageSlot-1];
 
         }
 
