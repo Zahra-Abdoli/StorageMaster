@@ -45,6 +45,10 @@ namespace StorageMaster.Models.Vehicles
             }
 
         }
+        public override string ToString()
+        {
+            return "";
+        }
 
         /// <summary>
         /// if the vehicle is not full, a product is added

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using StorageMaster.Models.Products;
 using StorageMaster.Models.Storage;
@@ -8,7 +9,8 @@ using StorageMaster.Models.Vehicles;
 
 namespace StorageMaster.core
 {
-    class StorageMaster
+
+    public class StorageMaster
     {
         private StorageMaster()
         {
@@ -101,7 +103,7 @@ namespace StorageMaster.core
         {
             var storage = storageRegistry.Where(p => p.Name == storageName).First();
             Vehicle result = storage.GetVehicle(garageSlot);
-            return ($"selected {result.ToString()}");
+            return $"selected {result.ToString()}";
 
 
         }
@@ -125,7 +127,7 @@ namespace StorageMaster.core
                 productCount++;
 
             }
-            return ($"loded {productCount} product into{vehicle.ToString()}");
+            return $"loded {productCount} product into{vehicle.ToString()}";
         }
         /// <summary>
         /// send vehicle from source storage to destination storage
@@ -139,7 +141,7 @@ namespace StorageMaster.core
             var source = storageRegistry.Where(p => p.Name == sourceName).First();
             var destination = storageRegistry.Where(p => p.Name == destinationName).First();
             source.SendVehicleTo(sourceGarageSlot, destination);
-            return ($"selected{destination.Garage[destination.Garage.Count].ToString()}");
+            return $"selected{destination.Garage[destination.Garage.Count].ToString()}";
 
         }
         /// <summary>
@@ -159,20 +161,27 @@ namespace StorageMaster.core
         /// <param name="storageName"></param>
         public static string GetStorageStatuse(string storageName)
         {
-            string result = null;
+            
             var storage = storageRegistry.Where(p => p.Name == storageName).First();
             storage.Products.GroupBy(p => p.ToString()).OrderByDescending(p => p.Count()).OrderBy(p => p.ToString());
-            string garageSlot;
-            if (storage.Garage.Count == 0) garageSlot = "empty";
-            else garageSlot = storage.Garage.Count().ToString();
+            string garageSlot = null;
 
-            result = $"stock({storage.WeightSum}/{storage.Capacity}:) [";
-            foreach (Product product in storage.Products)
+            for (int i = 0; i < 10; i++)
             {
-                return "";
+                if (i <= storage.Garage.Count) garageSlot += storage.Garage[i].ToString();
+                else garageSlot += "empty";
+                garageSlot += "|";
+
+            }
+            string stock = null;
+            for (int i = 0; i < storage.Products.Count; i++)
+            {
+                stock += $"{storage.Products[i]}()";
+                ///gropby count
             }
 
-            return null;
+
+            return $"stock({storage.WeightSum}/{storage.Capacity}):[{stock}] \n [{garageSlot}]" ;
         }
         /// <summary>
         /// get all the storage in the storageRegistary and give summary
