@@ -163,7 +163,7 @@ namespace StorageMaster.core
         {
             
             var storage = storageRegistry.Where(p => p.Name == storageName).First();
-            storage.Products.GroupBy(p => p.ToString()).OrderByDescending(p => p.Count()).OrderBy(p => p.ToString());
+            var GroupbyList=storage.Products.GroupBy(p => p.ToString()).OrderByDescending(p => p.Count()).OrderBy(p => p.ToString()).ToList();
             string garageSlot = "";
 
             for (int i = 0; i < 10; i++)
@@ -174,9 +174,9 @@ namespace StorageMaster.core
           
             }
             string stock = "";
-            for (int i = 0; i < storage.Products.Count; i++)
+            for (int i = 0; i < GroupbyList.Count(); i++)
             {
-                stock += $"{storage.Products[i]}()";
+                stock += $"{GroupbyList[i]}({GroupbyList[i].Count()})";
                 ///gropby count
             }
 
