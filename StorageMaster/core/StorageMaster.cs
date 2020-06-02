@@ -101,8 +101,8 @@ namespace StorageMaster.core
         /// <returns></returns>
         public static string SelectedVehicle(string storageName, int garageSlot)
         {
-            var storage = storageRegistry.Where(p => p.Name == storageName).First();
-            Vehicle result = storage.GetVehicle(garageSlot);
+            var result= storageRegistry.Where(p => p.Name == storageName).First().GetVehicle(garageSlot);
+           
             return $"selected {result.ToString()}";
 
 
@@ -152,8 +152,8 @@ namespace StorageMaster.core
         /// <returns></returns>
         public static string UnloadVehicle(string storageName, int garageSlot)
         {
-            var storage = storageRegistry.Where(p => p.Name == storageName).First();
-            int result = storage.UnloadVehicle(garageSlot);
+            var result= storageRegistry.Where(p => p.Name == storageName).First().UnloadVehicle(garageSlot);
+          
             return $"Unloaded {result} product at {storageName} ";
         }
         /// <summary>
