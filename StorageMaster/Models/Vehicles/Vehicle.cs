@@ -70,7 +70,7 @@ namespace StorageMaster.Models.Vehicles
             if (isEmpty)
                 throw new InvalidOperationException("No products left in vehicle.");
             else
-                trunk.RemoveAt(trunk.Count);
+                trunk.Remove(product);
             //maybe bound error, trunk.Count -1
             capacity = capacity - (int)product.Weight;
         }

@@ -44,17 +44,17 @@ namespace StorageMaster.core
             switch (type)
             {
 
-                case "Gpu":
+                case "gpu":
                     product = new Gpu(price);
                     break;
 
-                case "HardDrive":
+                case "hardDrive":
                     product = new HardDrive(price);
                     break;
-                case "SolidState":
+                case "solidState":
                     product = new SolidStateDrive(price);
                     break;
-                case "Ram":
+                case "ram":
                     product = new Ram(price);
                     break;
                 default:
@@ -75,13 +75,13 @@ namespace StorageMaster.core
             switch (type)
             {
 
-                case "AutomatedWarehouse":
+                case "automatedWarehouse":
                     storage = new AutomatedWarehouse(name);
                     break;
-                case "DistributionCenter":
+                case "aistributionCenter":
                     storage = new DistributionCenter(name);
                     break;
-                case "Warehouse":
+                case "warehouse":
                     storage = new Warehouse(name);
                     break;
 

@@ -52,8 +52,8 @@ namespace StorageMaster.Models.Storage
             Name = name;
             Capacity = capacity;
             GarageSlots = garageSlots;
-            this.Garage = new List<Vehicle>(garageSlots);
-            this.Products = new List<Product>(capacity);
+            Garage = new List<Vehicle>(garageSlots);
+            Products = new List<Product>(capacity);
 
         }
 
@@ -89,10 +89,10 @@ namespace StorageMaster.Models.Storage
 
                 throw new InvalidOperationException("Invalid Garage Slot");
 
-            else if (Garage[garageSlot-1] == null)
+            else if (Garage[garageSlot - 1] == null)
                 throw new InvalidOperationException("No Vehicle is the Garage Slot");
             else
-                return Garage[garageSlot-1];
+                return Garage[garageSlot - 1];
 
         }
 
@@ -126,16 +126,18 @@ namespace StorageMaster.Models.Storage
                 throw new InvalidOperationException("Storage is full");
             var v = GetVehicle(garageSlot);
             int unloaded = 0;
-            foreach (Product product in v.Trunk)
+
+            while(!v.IsEmpty)
             {
 
-                if (!v.IsEmpty || !this.IsFull)
+                if (!this.IsFull)
 
-                    this.products.Add(product);
-                v.UnLoad(product);
+                products.Add(v.Trunk[v.Trunk.Count-1]);
+                v.UnLoad(v.Trunk[v.Trunk.Count - 1]);
 
                 unloaded++;
             }
+
             return unloaded;
         }
     }
