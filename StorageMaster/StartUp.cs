@@ -28,7 +28,8 @@ namespace StorageMaster
             core.StorageMaster.SendVehicleTo("Apple", 1, "Dell");
             core.StorageMaster.UnloadVehicle("Sumsong", 1);
             core.StorageMaster.GetStorageStatuse("Apple");
-           /// core.StorageMaster.LoadVehicle( new List<string>() { "Gpu", "HardDrive" },);
+            Semi semi = new Semi();         
+            core.StorageMaster.LoadVehicle( new List<string>() { "Gpu", "HardDrive" },semi);
             core.StorageMaster.GetSummary();
 
 
