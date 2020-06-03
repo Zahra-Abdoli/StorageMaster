@@ -14,7 +14,9 @@ namespace StorageMaster
     {
         static void Main(string[] args)
         {
-            IO.Cosole.Start();
+            var r = new Engine();
+            r.RunEngine();
+
 
         }
     }
