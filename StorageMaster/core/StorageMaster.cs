@@ -40,26 +40,7 @@ namespace StorageMaster.core
         /// <returns></returns>
         public static string AddProduct(string type, double price)
         {
-            Product product = null;
-            switch (type)
-            {
-
-                case "gpu":
-                    product = new Gpu(price);
-                    break;
-
-                case "hardDrive":
-                    product = new HardDrive(price);
-                    break;
-                case "solidState":
-                    product = new SolidStateDrive(price);
-                    break;
-                case "ram":
-                    product = new Ram(price);
-                    break;
-                default:
-                    throw new InvalidOperationException("invalid product type");
-            }
+            Product product = Factories.ProductFactory.CreateProduct(type, price);
             pool.Add(product);
             return ($"{type} added to pool");
         }
@@ -71,24 +52,7 @@ namespace StorageMaster.core
         /// <returns></returns>
         public static string RegisterStorage(string type, string name)
         {
-            Storage storage = null;
-            switch (type)
-            {
-
-                case "automatedWarehouse":
-                    storage = new AutomatedWarehouse(name);
-                    break;
-                case "aistributionCenter":
-                    storage = new DistributionCenter(name);
-                    break;
-                case "warehouse":
-                    storage = new Warehouse(name);
-                    break;
-
-
-                default:
-                    throw new InvalidOperationException("invalid storage type");
-            }
+            Storage storage = Factories.StorageFactory.CreateStorage(type,name);
             storageRegistry.Add(storage);
             return ($"registerd {name}");
 

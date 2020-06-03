@@ -7,7 +7,7 @@ namespace StorageMaster.Models.Vehicles
 {
     public abstract class Vehicle
     {
-        private int capacity;
+        private double capacity;
         private List<Product> trunk;
         private bool isFull;
         private bool isEmpty;
@@ -18,7 +18,7 @@ namespace StorageMaster.Models.Vehicles
             Trunk = new List<Product>();
         }
 
-        public int Capacity { get => capacity; set => capacity = value; }
+        public double Capacity { get => capacity; set => capacity = value; }
         public List<Product> Trunk { get => trunk; private set => trunk = value; }
         public bool IsFull
         {
@@ -72,7 +72,7 @@ namespace StorageMaster.Models.Vehicles
             else
                 trunk.Remove(product);
             //maybe bound error, trunk.Count -1
-            capacity = capacity - (int)product.Weight;
+            capacity = capacity - product.Weight;
         }
     }
 }

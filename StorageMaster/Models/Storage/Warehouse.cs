@@ -9,9 +9,9 @@ namespace StorageMaster.Models.Storage
     {
         public Warehouse(string name) :base( name,10,10)
         {
-            Semi s1 = new Semi();
-            Semi s2 = new Semi();
-            Semi s3 = new Semi();
+            Vehicle s1 = Factories.VehicleFactory.CreateVehicle("Semi");
+            Vehicle s2 = Factories.VehicleFactory.CreateVehicle("Semi");
+            Vehicle s3 = Factories.VehicleFactory.CreateVehicle("Semi");
             Garage.Add(s1);
             Garage.Add(s2);
             Garage.Add(s3);

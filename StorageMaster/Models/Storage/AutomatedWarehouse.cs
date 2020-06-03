@@ -10,7 +10,7 @@ namespace StorageMaster.Models.Storage
     {
         public AutomatedWarehouse(string name): base(name, 1, 2)
         {
-            Truck truck = new Truck();
+            Vehicle truck = Factories.VehicleFactory.CreateVehicle("Truck");
             Garage.Add(truck);
         }
     }

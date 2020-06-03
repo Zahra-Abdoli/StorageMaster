@@ -10,7 +10,7 @@ namespace StorageMaster.Models.Storage
     public abstract class Storage
     {
         private string name;
-        private int capacity;
+        private double capacity;
         private int garageSlots;
         private bool isFull;
         private List<Product> products;
@@ -47,18 +47,18 @@ namespace StorageMaster.Models.Storage
 
 
 
-        public Storage(string name, int capacity, int garageSlots)
+        public Storage(string name, double capacity, int garageSlots)
         {
             Name = name;
             Capacity = capacity;
             GarageSlots = garageSlots;
-            Garage = new List<Vehicle>(garageSlots);
-            Products = new List<Product>(capacity);
+            Garage = new List<Vehicle>();
+            Products = new List<Product>();
 
         }
 
         public string Name { get => name; set => name = value; }
-        public int Capacity { get => capacity; set => capacity = value; }
+        public double Capacity { get => capacity; set => capacity = value; }
         public int GarageSlots { get => garageSlots; set => garageSlots = value; }
         public bool IsFull
         {
@@ -122,17 +122,18 @@ namespace StorageMaster.Models.Storage
         /// <returns></returns>
         public int UnloadVehicle(int garageSlot)
         {
-            if (IsFull)
-                throw new InvalidOperationException("Storage is full");
             var v = GetVehicle(garageSlot);
             int unloaded = 0;
 
             while(!v.IsEmpty)
             {
 
-                if (!this.IsFull)
+                if (IsFull)
+                    throw new InvalidOperationException("Storage is full");
+
 
                 products.Add(v.Trunk[v.Trunk.Count-1]);
+                capacity += v.Trunk[v.Trunk.Count - 1].Weight;
                 v.UnLoad(v.Trunk[v.Trunk.Count - 1]);
 
                 unloaded++;

@@ -9,9 +9,9 @@ namespace StorageMaster.Models.Storage
     {
         public DistributionCenter(string name): base(name, 2, 5)
         {
-            Van v1 = new Van();
-            Van v2 = new Van();
-            Van v3 = new Van();
+            Vehicle v1 = Factories.VehicleFactory.CreateVehicle("Van");
+            Vehicle v2 = Factories.VehicleFactory.CreateVehicle("Van");
+            Vehicle v3 = Factories.VehicleFactory.CreateVehicle("Van");
             Garage.Add(v1);
             Garage.Add(v2);
             Garage.Add(v3);
